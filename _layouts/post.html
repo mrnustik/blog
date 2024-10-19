@@ -4,6 +4,29 @@ layout: default
 
 <article>
   {% include meta.html post=page %}
+
+  {% if page.series != null %}
+    <h3>Other posts in the series: {{page.series}}</h3>
+    {% assign posts = site.posts | where: "series", page.series | sort 'date' %}
+
+    <ol>
+      {% for post in posts %}
+          {% if post.title ==  page.title %}
+            <li>
+              {{post.title}} (this one)
+            </li>
+          {% else %}
+            <a href="/blog/{{post.url}}"> 
+              <li>
+                {{post.title}}
+              </li>
+            </a>
+          {% endif %}
+      {% endfor %}
+    </ol>
+
+  {% endif %}
+
   {{ content }}
   {% if page.comments != false and site.comments.isso or site.comments.disqus %}
     <hr>
